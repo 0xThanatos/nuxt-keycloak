@@ -34,6 +34,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
     '@nuxtjs/auth-next',
   ],
 
@@ -77,8 +78,14 @@ export default {
     },
     redirect: {
       login: '/login',
-      callback: '/callback',
+      logout: '/',
       home: '/',
+    },
+  },
+
+  proxy: {
+    '/auth': {
+      target: 'https://localhost:8080',
     },
   },
 
