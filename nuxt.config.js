@@ -50,13 +50,29 @@ export default {
     strategies: {
       keycloak: {
         scheme: 'oauth2',
-        authorization_endpoint: 'https://localhost:8080/user/authorize',
-        userinfo_endpoint: false,
-        access_type: 'offline',
-        access_token_endpoint: 'https://localhost:8080/token',
-        response_type: 'code',
-        token_type: 'Bearer',
-        token_key: 'access_token',
+        endpoints: {
+          authorization: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/auth`,
+          userInfo: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/userinfo`,
+          token: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/token`,
+          logout:
+            `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/logout?redirect_uri=` +
+            encodeURIComponent(String(process.env.HOME_URI)),
+        },
+        token: {
+          property: 'access_token',
+          type: 'Bearer',
+          name: 'Authorization',
+          maxAge: 1800, // Can be dynamic ?
+        },
+        refreshToken: {
+          property: 'refresh_token',
+          maxAge: 60 * 60 * 24 * 30, // Can be dynamic ?
+        },
+        responseType: 'code',
+        grantType: 'authorization_code',
+        clientId: process.env.KEYCLOAK_CLIENT_ID,
+        scope: ['openid', 'profile', 'email'],
+        codeChallengeMethod: 'S256',
       },
     },
     redirect: {
