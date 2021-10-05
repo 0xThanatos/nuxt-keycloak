@@ -44,8 +44,15 @@
 <script>
 export default {
   methods: {
-    login() {
-      this.$auth.loginWith('keycloak')
+    async login() {
+      try {
+        const response = await this.$auth.loginWith('keycloak')
+        // eslint-ignore-next-line
+        console.log(response)
+      } catch (err) {
+        // eslint-ignore-next-line
+        console.log(err)
+      }
     },
   },
 }
