@@ -40,8 +40,8 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'https://localhost:8080',
-    browserBaseURL: 'https://localhost:8080',
+    baseURL: 'https://localhost:3000',
+    browserBaseURL: 'https://localhost:3000',
     proxyHeaders: true,
     proxy: true,
   },
@@ -49,7 +49,7 @@ export default {
   // Auth module configuration: https://auth.nuxtjs.org/guide/setup
   auth: {
     strategies: {
-      keycloak: {
+      oauth2: {
         scheme: 'oauth2',
         endpoints: {
           authorization: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/auth`,
@@ -57,7 +57,7 @@ export default {
           token: `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/token`,
           logout:
             `${process.env.KEYCLOAK_HOST}/auth/realms/${process.env.KEYCLOAK_REALM}/protocol/openid-connect/logout?redirect_uri=` +
-            encodeURIComponent(String(process.env.HOME_URI)),
+            encodeURIComponent(String(process.env.HOME_URL)),
         },
         token: {
           property: 'access_token',
@@ -77,7 +77,7 @@ export default {
       },
     },
     redirect: {
-      login: '/login',
+      login: '/',
       logout: '/',
       home: '/',
     },
