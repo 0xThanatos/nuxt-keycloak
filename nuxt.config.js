@@ -83,12 +83,6 @@ export default {
     },
   },
 
-  proxy: {
-    '/auth': {
-      target: 'https://localhost:8080',
-    },
-  },
-
   router: {
     middleware: ['auth'],
   },
