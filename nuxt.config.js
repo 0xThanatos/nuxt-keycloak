@@ -27,24 +27,24 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    'nuxt-windicss',
+    // 'nuxt-windicss',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
-    '@nuxtjs/proxy',
+    // '@nuxtjs/axios',
+    // '@nuxtjs/proxy',
     '@nuxtjs/auth-next',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    baseURL: 'https://localhost:3000',
-    browserBaseURL: 'https://localhost:3000',
-    proxyHeaders: true,
-    proxy: true,
-  },
+  // axios: {
+  //   baseURL: 'https://localhost:3000',
+  //   browserBaseURL: 'https://localhost:3000',
+  //   proxyHeaders: true,
+  //   proxy: true,
+  // },
 
   // Auth module configuration: https://auth.nuxtjs.org/guide/setup
   auth: {
