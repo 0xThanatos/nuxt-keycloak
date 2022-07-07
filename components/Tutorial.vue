@@ -196,10 +196,10 @@
 export default {
   methods: {
     async login() {
-      await this.$auth.loginWith('oauth2')
+      await this.$auth.loginWith('keycloak')
     },
     async logout() {
-      await this.$auth.logout()
+      await this.$auth.reset()
     },
   },
 }

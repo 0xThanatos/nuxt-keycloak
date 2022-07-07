@@ -42,70 +42,69 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {
-    baseURL: 'https://localhost:3000',
-    browserBaseURL: 'https://localhost:3000',
-    proxyHeaders: true,
-    proxy: true,
-  },
+  axios: {},
 
   // Auth module configuration: https://auth.nuxtjs.org/guide/setup
   auth: {
+    local: false,
     strategies: {
-      oauth2: {
+      keycloak: {
         scheme: 'oauth2',
         endpoints: {
-          authorization: `${
-            process.env.KEYCLOAK_HOST || 'http://localhost:8080'
-          }/auth/realms/${
-            process.env.KEYCLOAK_REALM || 'master'
-          }/protocol/openid-connect/auth`,
-          userInfo: `${
-            process.env.KEYCLOAK_HOST || 'http://localhost:8080'
-          }/auth/realms/${
-            process.env.KEYCLOAK_REALM || 'master'
-          }/protocol/openid-connect/userinfo`,
-          token: `${
-            process.env.KEYCLOAK_HOST || 'http://localhost:8080'
-          }/auth/realms/${
-            process.env.KEYCLOAK_REALM || 'master'
-          }/protocol/openid-connect/token`,
+          authorization:
+            process.env.KEYCLOAK_API_URL +
+            'auth/realms/' +
+            process.env.KEYCLOAK_REALM +
+            '/protocol/openid-connect/auth',
+          token:
+            process.env.KEYCLOAK_API_URL +
+            'auth/realms/' +
+            process.env.KEYCLOAK_REALM +
+            '/protocol/openid-connect/token',
+          userInfo:
+            process.env.KEYCLOAK_API_URL +
+            'auth/realms/' +
+            process.env.KEYCLOAK_REALM +
+            '/protocol/openid-connect/userinfo',
           logout:
-            `${process.env.KEYCLOAK_HOST}/auth/realms/${
-              process.env.KEYCLOAK_REALM || 'master'
-            }/protocol/openid-connect/logout?redirect_uri=` +
-            encodeURIComponent(
-              String(process.env.HOME_URL || 'http://localhost:3000')
-            ),
+            process.env.KEYCLOAK_API_URL +
+            'auth/realms/' +
+            process.env.KEYCLOAK_REALM +
+            '/protocol/openid-connect/logout?redirect_uri=' +
+            encodeURIComponent(process.env.HOME_URL),
         },
         token: {
           property: 'access_token',
           type: 'Bearer',
           name: 'Authorization',
-          maxAge: 1800, // Can be dynamic ?
+          maxAge: 1800,
         },
         refreshToken: {
           property: 'refresh_token',
-          maxAge: 60 * 60 * 24 * 30, // Can be dynamic ?
+          maxAge: 60 * 60 * 24 * 30,
         },
         responseType: 'code',
         grantType: 'authorization_code',
-        clientId: process.env.KEYCLOAK_CLIENT_ID || 'nuxt',
+        clientId: process.env.KEYCLOAK_CLIENT_ID,
         scope: ['openid', 'profile', 'email'],
         codeChallengeMethod: 'S256',
       },
     },
     redirect: {
-      login: '/',
+      login: '/login',
       logout: '/',
       home: '/',
     },
   },
 
-  router: {
-    middleware: ['auth'],
-  },
+  // proxy: {
+  //   '/auth': {
+  //     target: 'http://localhost:8080',
+  //   },
+  // },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: ['@nuxtjs/auth-next'],
+  },
 }
